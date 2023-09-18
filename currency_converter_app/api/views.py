@@ -10,7 +10,8 @@ from currency_converter_app.api.utils import from_query, get_converted_currency
 
 @extend_schema(
     summary='Конвертация валюты',
-    description='Данное API конвертирует количество одной валюты в другую',
+    description='Данное API конвертирует количество одной валюты в другую '
+                '(Если значение value не передано - ставится значение по-умолчанию: 1)',
     responses={
         200: CurrencyCheckDataSerializer(),
         500: OpenApiResponse(description='Internal Server Error'),
@@ -25,11 +26,12 @@ class ConverterCurrencyAPIView(APIView):
     http_method_names = ('get',)
 
     def get(self, request):
+        value = self.request.GET.get('value')
         query_data = from_query(
             {
                 'from_currency': self.request.GET.get('from'),
                 'to_currency': self.request.GET.get('to'),
-                'value': self.request.GET.get('value'),
+                'value': value if value else 1,
              },
             CurrencyCheckDataSerializer
         )

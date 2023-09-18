@@ -11,6 +11,8 @@ class ConverterCurrencySerializer(serializers.Serializer):
 
 class CurrencyCheckDataSerializer(serializers.Serializer):
     """Сеалайзер для валидации переданных данных"""
+    # Изменил 'from' на 'from_currency', и 'to' на 'to_currency' потому что 'from' - это занятое слово в python
+    # query-параметры в ручке же остались как в ТЗ: 'from' и 'to'
     from_currency = serializers.CharField(source='from')
     to_currency = serializers.CharField(source='to')
     value = serializers.FloatField()
